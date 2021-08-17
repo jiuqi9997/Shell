@@ -248,7 +248,7 @@ fi
 [ -z "$VER" ] && VER='amd64'
 
 if [[ -z "$tmpDIST" ]]; then
-  [ "$Relese" == 'Debian' ] && tmpDIST='jessie' && DIST='jessie';
+  [ "$Relese" == 'Debian' ] && tmpDIST='jessie' && DIST='buster';
   [ "$Relese" == 'Ubuntu' ] && tmpDIST='bionic' && DIST='bionic';
   [ "$Relese" == 'CentOS' ] && tmpDIST='6.10' && DIST='6.10';
 fi
@@ -265,6 +265,7 @@ if [[ -z "$DIST" ]]; then
         [[ "$isDigital" == '8' ]] && DIST='jessie';
         [[ "$isDigital" == '9' ]] && DIST='stretch';
         [[ "$isDigital" == '10' ]] && DIST='buster';
+        [[ "$isDigital" == '11' ]] && DIST='bullseye';
       }
     }
     LinuxMirror=$(SelectMirror "$Relese" "$DIST" "$VER" "$tmpMirror")
@@ -280,6 +281,7 @@ if [[ -z "$DIST" ]]; then
         [[ "$isDigital" == '14.04' ]] && DIST='trusty';
         [[ "$isDigital" == '16.04' ]] && DIST='xenial';
         [[ "$isDigital" == '18.04' ]] && DIST='bionic';
+        [[ "$isDigital" == '20.04' ]] && DIST='focal';
       }
     }
     LinuxMirror=$(SelectMirror "$Relese" "$DIST" "$VER" "$tmpMirror")
@@ -371,12 +373,12 @@ ASKVNC(){
 }
 
 [ "$inVNC" == 'y' -o "$inVNC" == 'n' ] || ASKVNC;
-[[ "$ddMode" == '0' ]] && {
-  [[ "$inVNC" == 'y' ]] && echo -e "\033[34mManual Mode\033[0m install [\033[33m$Relese\033[0m] [\033[33m$DIST\033[0m] [\033[33m$VER\033[0m] in VNC. "
-  [[ "$inVNC" == 'n' ]] && echo -e "\033[34mAuto Mode\033[0m install [\033[33m$Relese\033[0m] [\033[33m$DIST\033[0m] [\033[33m$VER\033[0m]. "
+[[ "$ddMode" == '0' ]] && { 
+  [[ "$inVNC" == 'y' ]] && echo -e "\033[34mManual Mode\033[0m insatll [\033[33m$Relese\033[0m] [\033[33m$DIST\033[0m] [\033[33m$VER\033[0m] in VNC. "
+  [[ "$inVNC" == 'n' ]] && echo -e "\033[34mAuto Mode\033[0m insatll [\033[33m$Relese\033[0m] [\033[33m$DIST\033[0m] [\033[33m$VER\033[0m]. "
 }
 [[ "$ddMode" == '1' ]] && {
-  echo -ne "\033[34mAuto Mode\033[0m install \033[33mOS\033[0m\n[\033[33m$DDURL\033[0m]\n"
+  echo -ne "\033[34mAuto Mode\033[0m insatll \033[33mWindows\033[0m\n[\033[33m$DDURL\033[0m]\n"
 }
 
 if [[ "$linux_relese" == 'centos' ]]; then
@@ -477,7 +479,7 @@ echo ${arrayNum[@]} |sed 's/\s/\n/g' |sort -n -k 1 -t ',' |tail -n1 |cut -d',' -
     ICFGN="$(find /etc/network/interfaces.d -name '*.cfg' |wc -l)" || ICFGN='0';
     [[ "$ICFGN" -ne '0' ]] && {
       for NetCFG in `ls -1 /etc/network/interfaces.d/*.cfg`
-        do
+        do 
           [[ -z "$(cat $NetCFG | sed -n '/iface.*inet static/p')" ]] && AutoNet='1' || AutoNet='0';
           [[ "$AutoNet" -eq '0' ]] && break;
         done
@@ -489,7 +491,7 @@ echo ${arrayNum[@]} |sed 's/\s/\n/g' |sort -n -k 1 -t ',' |tail -n1 |cut -d',' -
   ICFGN="$(find /etc/sysconfig/network-scripts -name 'ifcfg-*' |grep -v 'lo'|wc -l)" || ICFGN='0';
   [[ "$ICFGN" -ne '0' ]] && {
     for NetCFG in `ls -1 /etc/sysconfig/network-scripts/ifcfg-* |grep -v 'lo$' |grep -v ':[0-9]\{1,\}'`
-      do
+      do 
         [[ -n "$(cat $NetCFG | sed -n '/BOOTPROTO.*[dD][hH][cC][pP]/p')" ]] && AutoNet='1' || {
           AutoNet='0' && . $NetCFG;
           [[ -n $NETMASK ]] && MASK="$NETMASK";
@@ -805,7 +807,7 @@ timezone --isUtc Asia/Hong_Kong
 #NODHCP network --bootproto=static --ip=$IPv4 --netmask=$MASK --gateway=$GATE --nameserver=8.8.8.8 --onboot=on
 bootloader --location=mbr --append="rhgb quiet crashkernel=auto"
 zerombr
-clearpart --all --initlabel
+clearpart --all --initlabel 
 autopart
 
 %packages
@@ -847,7 +849,7 @@ chown root:root $GRUBDIR/$GRUBFILE
 chmod 444 $GRUBDIR/$GRUBFILE
 
 if [[ "$loaderMode" == "0" ]]; then
-  sleep 3 && reboot >/dev/null 2>&1
+  sleep 3 && reboot || sudo reboot >/dev/null 2>&1
 else
   rm -rf "$HOME/loader"
   mkdir -p "$HOME/loader"

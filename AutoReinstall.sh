@@ -12,10 +12,8 @@ function CopyRight() {
   echo "#                                                      #"
   echo "#  Auto Reinstall Script                               #"
   echo "#                                                      #"
-  echo "#  Author: hiCasper                                    #"
-  echo "#  Blog: https://blog.hicasper.com/post/135.html       #"
-  echo "#  Feedback: https://github.com/hiCasper/Shell/issues  #"
-  echo "#  Last Modified: 2021-01-13                           #"
+  echo "#  Author: hiCasper & jiuqi9997                        #"
+  echo "#  Last Modified: 2021-08-18                           #"
   echo "#                                                      #"
   echo "#  Supported by MoeClub                                #"
   echo "#                                                      #"
@@ -151,7 +149,8 @@ function Start() {
   if [ -f "/tmp/InstallNET.sh" ]; then
     rm -f /tmp/InstallNET.sh
   fi
-  wget --no-check-certificate -qO /tmp/InstallNET.sh 'https://cdn.jsdelivr.net/gh/hiCasper/Shell/InstallNET.sh' && chmod a+x /tmp/InstallNET.sh
+  #wget --no-check-certificate -qO /tmp/InstallNET.sh 'https://cdn.jsdelivr.net/gh/jiuqi9997/Shell/InstallNET.sh' && chmod a+x /tmp/InstallNET.sh
+  wget --no-check-certificate -qO /tmp/InstallNET.sh 'https://moeclub.org/attachment/LinuxShell/InstallNET.sh' && chmod a+x /tmp/InstallNET.sh
 
   CMIRROR=''
   CVMIRROR=''
@@ -164,33 +163,24 @@ function Start() {
     UMIRROR="--mirror http://mirrors.aliyun.com/ubuntu/"
   fi
 
-  sed -i 's#https://github.com/MoeClub/MoeClub.github.io/raw/master/lib/wget_udeb_amd64.tar.gz#https://cdn.jsdelivr.net/gh/hiCasper/Shell/wget_udeb_amd64.tar.gz#' /tmp/InstallNET.sh
-  sed -i 's/$1$4BJZaD0A$y1QykUnJ6mXprENfwpseH0/$1$7R4IuxQb$J8gcq7u9K0fNSsDNFEfr90/' /tmp/InstallNET.sh
-  sed -i "/18.04/a\        [[ \"\$isDigital\" == \'20.04\' ]] && DIST=\'focal\'\;" /tmp/InstallNET.sh
-  sed -i '/force-efi-extra-removable/d' /tmp/InstallNET.sh
-
   echo -e "\nPlease select an OS:"
-  echo "  1) CentOS 7.9 (DD Image)"
-  echo "  2) CentOS 7.6 (DD Image, ServerSpeeder Avaliable)"
-  echo "  3) CentOS 6"
-  echo "  4) Debian 9"
-  echo "  5) Debian 10"
-  echo "  6) Ubuntu 16.04"
-  echo "  7) Ubuntu 18.04"
-  echo "  8) Ubuntu 20.04"
-  echo "  9) Custom image"
+  echo "  1) Debian 11"
+  echo "  2) Debian 10"
+  echo "  3) Ubuntu 20.04"
+  echo "  4) Ubuntu 18.04"
+  echo "  5) Ubuntu 16.04"
+  echo "  6) CentOS 7.9"
+  echo "  7) Custom image"
   echo "  0) Exit"
   echo -ne "\nYour option: "
   read N
   case $N in
-    1) echo -e "\nPassword: Pwd@CentOS\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh $NETSTR -dd 'https://api.moetools.net/get/centos-7-image' $DMIRROR ;;
-    2) echo -e "\nPassword: Pwd@CentOS\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh $NETSTR -dd 'https://api.moetools.net/get/centos-76-image' $DMIRROR ;;
-    3) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -c 6.10 -v 64 -a $NETSTR $CMIRROR ;;
-    4) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -d 9 -v 64 -a $NETSTR $DMIRROR ;;
-    5) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -d 10 -v 64 -a $NETSTR $DMIRROR ;;
-    6) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -u 16.04 -v 64 -a $NETSTR $UMIRROR ;;
-    7) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -u 18.04 -v 64 -a $NETSTR $UMIRROR ;;
-    8) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; sed -i 's#images/netboot#legacy-images/netboot#' /tmp/InstallNET.sh; bash /tmp/InstallNET.sh -u 20.04 -v 64 -a $NETSTR $UMIRROR ;;
+    1) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -d 11 -v 64 -p "Pwd@Linux" -a $NETSTR $DMIRROR ;;
+    2) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -d 10 -v 64 -p "Pwd@Linux" -a $NETSTR $DMIRROR ;;
+    3) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -u 20.04 -v 64 -p "Pwd@Linux" -a $NETSTR $UMIRROR ;;
+    4) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -u 18.04 -v 64 -p "Pwd@Linux" -a $NETSTR $UMIRROR ;;
+    5) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -u 16.04 -v 64 -p "Pwd@Linux" -a $NETSTR $UMIRROR ;;
+    6) echo -e "\nPassword: Pwd@CentOS\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh $NETSTR -dd 'https://api.moetools.net/get/centos-7-image' $DMIRROR ;;
     9)
       echo -e "\n"
       read -r -p "Custom image URL: " imgURL
