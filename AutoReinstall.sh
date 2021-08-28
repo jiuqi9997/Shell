@@ -181,7 +181,7 @@ function Start() {
     4) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -u 18.04 -v 64 -p "Pwd@Linux" -a $NETSTR $UMIRROR ;;
     5) echo -e "\nPassword: Pwd@Linux\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh -u 16.04 -v 64 -p "Pwd@Linux" -a $NETSTR $UMIRROR ;;
     6) echo -e "\nPassword: Pwd@CentOS\n"; read -s -n1 -p "Press any key to continue..." ; bash /tmp/InstallNET.sh $NETSTR -dd 'https://api.moetools.net/get/centos-7-image' $DMIRROR ;;
-    9)
+    7)
       echo -e "\n"
       read -r -p "Custom image URL: " imgURL
       echo -e "\n"
